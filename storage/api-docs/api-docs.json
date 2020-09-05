@@ -1,0 +1,350 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "3PS OpenAPI Documentation",
+        "description": "3PS OpenAPI publish",
+        "contact": {
+            "email": "artexsdns@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://api.3permata.co.id/",
+            "description": "3PS OpenAPI Published"
+        }
+    ],
+    "paths": {
+        "/api/v1/registers": {
+            "post": {
+                "tags": [
+                    "Register Access API key"
+                ],
+                "summary": "Register data with scheme apiKey <Token>",
+                "description": "Returns Api Access Token",
+                "operationId": "RegisterApiToken",
+                "requestBody": {
+                    "description": "Register API Access Token",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegisterAPIkey"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/login": {
+            "post": {
+                "tags": [
+                    "Authorization Access Token API key"
+                ],
+                "summary": "Authorization data with scheme apiKey ( Bearer <token> )",
+                "description": "Returns personal access token with scope(s)",
+                "operationId": "Authorized access Token with scope(s)",
+                "requestBody": {
+                    "description": "Authorization Access Token API key with scope(s)",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "provider": {
+                                        "type": "string"
+                                    },
+                                    "scopes": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    },
+                    "200": {
+                        "description": "Successful Authorization API Token with scope(s)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OauthApiKey"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/Customers": {
+            "get": {
+                "tags": [
+                    "Customer View SO"
+                ],
+                "summary": "Get list of Sales Order Customer",
+                "description": "Returns list of SO Customers",
+                "operationId": "getTransportOrders",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransportOrders"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "OauthApiKey": {
+                "title": "Definition scope access user(customer)",
+                "description": "Authorization access token apiKey",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 10
+                    },
+                    "password": {
+                        "title": "password",
+                        "description": "Password",
+                        "type": "string",
+                        "example": "123456"
+                    },
+                    "provider": {
+                        "title": "Provider driver api",
+                        "description": "definition provider for api customer/user",
+                        "type": "string",
+                        "example": "customer { required to fill in the customer }"
+                    },
+                    "access_token": {
+                        "title": "Access Token Customer API",
+                        "description": "Personal access token",
+                        "type": "string",
+                        "example": "nPUppmDaO75MX0Px9B5Xsvni_Tvxg_IqaTANM8b6Mj3gxCeXMsBtXA4uuwXpsMneAOxO8bxcqtGPKweV_ZPyRTWSR7Ol"
+                    },
+                    "scopes": {
+                        "title": "Scopes Access API",
+                        "description": "Personal access token",
+                        "type": "string",
+                        "example": "shipment-view create-address"
+                    }
+                },
+                "type": "object"
+            },
+            "RegisterAPIkey": {
+                "title": "Register API token",
+                "description": "Authorization apiKey",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 10
+                    },
+                    "password": {
+                        "title": "password",
+                        "description": "Password",
+                        "type": "string",
+                        "example": "930291"
+                    }
+                },
+                "type": "object"
+            },
+            "Transport_orders": {
+                "title": "Transport_orders",
+                "description": "Transport_orders model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 111
+                    },
+                    "ItemID_accurate": {
+                        "title": "ItemID_accurate",
+                        "description": "ItemID_accurate",
+                        "type": "string",
+                        "example": "CS0607203200271"
+                    },
+                    "company": {
+                        "title": "Company",
+                        "description": "Company",
+                        "type": "string",
+                        "format": "int64",
+                        "example": "29"
+                    },
+                    "name": {
+                        "title": "name",
+                        "description": "Name",
+                        "type": "string",
+                        "format": "string",
+                        "example": "PT. VIE LIE XANG"
+                    },
+                    "status_id": {
+                        "title": "Status ID",
+                        "description": "Author's id of the new project",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 4
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 111
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name",
+                        "type": "string",
+                        "example": "daniel"
+                    },
+                    "email": {
+                        "title": "email",
+                        "description": "Email",
+                        "type": "string",
+                        "format": "email",
+                        "example": "developers@3ps.co.id"
+                    },
+                    "email_verified_at": {
+                        "title": "Email verified at",
+                        "description": "Email verified at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "deleted_at": {
+                        "title": "Deleted at",
+                        "description": "Deleted at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object"
+            },
+            "TransportOrders": {
+                "title": "TransportOrders",
+                "description": "Project resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Transport_orders"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ProjectResource"
+                }
+            },
+            "UsersResource": {
+                "title": "UsersResource",
+                "description": "Project resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/User"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ProjectResource"
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearer": {
+                "type": "apiKey",
+                "description": "A short description for security scheme",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
